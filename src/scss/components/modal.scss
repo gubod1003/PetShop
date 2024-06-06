@@ -16,6 +16,18 @@
     top: 12px;
     right: 12px;
     font-size: 36px;
+
+    @include tablet {
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+    }
+
+    @include mobile {
+      top: 8px;
+      right: 8px;
+      font-size: 20px;
+    }
   }
 }
 
@@ -28,9 +40,13 @@
   border-radius: 24px;
   width: 100%;
   max-width: 676px;
-  min-width: 459px;
+  min-height: 459px;
   box-shadow: 0 0 32px 0 rgba(0, 0, 0, 0.15);
   overflow: hidden;
+
+  @include mobile {
+    flex-direction: column;
+  }
 
   &:before {
     content: '';
@@ -39,6 +55,11 @@
     background-image: url("/img/cart-dog.jpg");
     background-size: cover;
     background-position: center;
+
+    @include mobile {
+      width: 100%;
+      height: 200px;
+    }
   }
 
   &_content {
@@ -46,6 +67,10 @@
     padding: 24px;
     display: flex;
     flex-direction: column;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   &__title {
