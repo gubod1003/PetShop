@@ -5,15 +5,20 @@ const cartButton = document.querySelector(".store__cart-button");
 const cartCount = cartButton.querySelector(".store__cart-cnt");
 const modalOverlay = document.querySelector(".modal-overlay");
 const cartItemsList = document.querySelector(".modal__cart-items");
-const modalCloseButton = document.querySelector(".modal-overlay_close-button");
 const cartTotalPriceElement = document.querySelector(".modal__cart-price");
 const cartForm = document.querySelector(".modal__cart-form");
 
-export const calculateTotalPrice = (cartItems, products) =>
+const calculateTotalPrice = (cartItems, products) =>
   cartItems.reduce((acc, item) => {
     const product = products.find((prod) => prod.id === item.id);
     return acc + product.price * item.count;
   }, 0);
+
+const renderTotalPrice = (cartItems, products) => {
+  const totalPrice = calculateTotalPrice(cartItems, products);
+  cartTotalPriceElement.innerHTML = `${totalPrice}&nbsp;₽`;
+  console.log()
+};
 
 const updateCartCount = () => {
   const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
@@ -48,6 +53,7 @@ const updateCartItem = (productId, change) => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     updateCartCount();
     renderCartItems(cartItemsList, cartItems, products);
+    renderTotalPrice(cartItems, products);
   }
 };
 
@@ -80,9 +86,7 @@ cartButton.addEventListener("click", async () => {
   const products = await fetchCartItems(ids);
   localStorage.setItem("cartProductDetails", JSON.stringify(products));
   renderCartItems(cartItemsList, cartItems, products);
-
-  const totalPrice = calculateTotalPrice(cartItems, products);
-  cartTotalPriceElement.innerHTML = `${totalPrice}&nbsp;₽`;
+  renderTotalPrice(cartItems, products);
 });
 
 modalOverlay.addEventListener("click", ({ target }) => {
